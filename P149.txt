@@ -1,0 +1,43 @@
+a=zeros(2000,2000);
+s=zeros(1,4000000);
+for k=1:55
+    s(k)=mod(100003-200003*k+300007*k^3,1000000)-500000;
+end
+
+for k=56:4000000
+    s(k)=mod(s(k-24)+s(k-55)+1000000,1000000)-500000;
+end
+
+a(1:end)=s;
+
+
+
+siza=size(a);
+atmp=zeros(siza(1)+2,siza(2)+2);
+atmp(2:end-1,2:end-1)=a;
+a=atmp;
+
+
+hori=zeros(size(a));
+veri=zeros(size(a));
+dia=zeros(size(a));
+adia=zeros(size(a));
+
+
+for i=2:siza(1)+1
+    for j=2:siza(2)+1
+        hori(i,j)=max([a(i,j),a(i,j)+hori(i,j-1)]);
+        veri(i,j)=max([a(i,j),a(i,j)+veri(i-1,j)]);
+        dia(i,j)=max([a(i,j),a(i,j)+dia(i-1,j-1)]);
+        adia(i,j)=max([a(i,j),a(i,j)+adia(i-1,j+1)]);
+        
+        
+    end
+end
+horimax=max(max(hori));
+verimax=max(max(veri));
+diamax=max(max(dia));
+adiamax=max(max(adia));
+
+
+disp(max([horimax,verimax,diamax,adiamax]));
